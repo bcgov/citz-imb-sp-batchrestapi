@@ -14,7 +14,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "proxy": "node ./api-server.js",
+    "startServers": "concurrently --kill-others \"npm run proxy\" \"npm run start\""
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -30,5 +32,14 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "devDependencies": {
+    "axios": "^0.19.2",
+    "concurrently": "^5.1.0",
+    "gulp": "^4.0.2",
+    "gulp-concat": "^2.6.1",
+    "jquery": "^3.4.1",
+    "sp-rest-proxy": "^2.10.3"
+  },
+  "proxy": "http://localhost:8081"
 }
