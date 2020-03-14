@@ -2,6 +2,7 @@ import React,{useState, useEffect} from "react"
 import axios from "axios"
 
 export default function ShowItemDetails({ listName, itemId }) {
+	console.log('ShowItemDetails', listName, itemId)
 	const [details, setDetails] = useState(<div></div>)
 	const clickHandler = () => {
 		axios

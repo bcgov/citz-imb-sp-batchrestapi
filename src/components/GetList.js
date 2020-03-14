@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from "react"
 import axios from "axios"
 
-export default function GetList({listName}) {
+export default function GetList({ listName }) {
+	console.log('GetList', listName)
 	const [dataString, setDataString] = useState("initialState")
+
 	useEffect(() => {
+		console.log('GetList useEffect')
 		axios
 			.get(`http://localhost:8081/_api/web/lists/getByTitle('${listName}')`)
 			.then(response => {
@@ -30,7 +33,7 @@ export default function GetList({listName}) {
 				console.groupEnd()
 			})
 
-		return () => {}
+		return () => { }
 	}, [listName])
 	return <h1>{dataString}</h1>
 }

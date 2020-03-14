@@ -2,10 +2,12 @@ import React, { useEffect, useState } from "react"
 import axios from "axios"
 import ShowItemDetails from "./ShowItemDetails"
 
-export default function GetItems({ listName }) {
+export default function GetItems({ listName, refresh }) {
+	console.log('GetItems', listName, refresh)
 	const [data, setData] = useState([])
 
 	useEffect(() => {
+		console.log('GetItems useEffect', refresh)
 		axios
 			.get(`http://localhost:8081/_api/web/lists/getByTitle('${listName}')/items`)
 			.then(response => {
@@ -33,8 +35,8 @@ export default function GetItems({ listName }) {
 				console.groupEnd()
 			})
 
-		return () => {}
-	}, [listName])
+		return () => { }
+	}, [listName, refresh])
 	return (
 		<ul>
 			{data.map((item, index) => {

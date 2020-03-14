@@ -3,23 +3,27 @@ import GetList from "./GetList"
 import GetItems from "./GetItems"
 import ShowAllItemDetails from "./ShowAllItemDetails"
 import AddItem from "./AddItem"
+import Add2Items from "./Add2Items"
 
 export default function RestAPI() {
-	const [itemTitle, setItemTitle] = useState("testing0")
+console.log('RestAPI')
 
 	const list = "calculations"
-	const itemNumber = 0
+	let itemNumber = Math.floor(Math.random() * 1000)
+	const [itemTitle, setItemTitle] = useState("testing" + itemNumber)
 
-	const handleAddItem = () => {
+	const handleAddItem = increment => {
+		itemNumber += increment
 		setItemTitle("testing" + itemNumber)
-		itemNumber++
+		console.log('itemNumber', itemNumber)
 	}
 
-	return (
+		return (
 		<div>
 			<GetList listName={list} />
-			<GetItems listName={list} />
+			<GetItems listName={list} refresh={itemNumber}/>
 			<AddItem listName={list} itemTitle={itemTitle} itemCreatedCallback={handleAddItem} />
+			<Add2Items listName={list} itemTitle={itemTitle} itemCreatedCallback={handleAddItem} />
 			<ShowAllItemDetails listName={list} />
 		</div>
 	)

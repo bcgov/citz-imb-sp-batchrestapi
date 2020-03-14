@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react"
 import axios from "axios"
-import $ from "jquery"
 
 export default function ShowAllItemDetails({ listName }) {
+	console.log('ShowAllItemDetails', listName)
 	const [details, setDetails] = useState(<div></div>)
 	const clickHandler = () => {
 		axios({
