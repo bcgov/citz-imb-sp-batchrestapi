@@ -1,7 +1,7 @@
 import React from 'react'
 import axios from 'axios'
 
-export default function Add2Items({listName, itemTitle, itemCreatedCallback}) {
+export default function Add2Items({ listName, itemTitle, itemCreatedCallback }) {
     console.log('Add2Items', listName, itemTitle, itemCreatedCallback)
 
     let itemsAsJson = []
@@ -11,7 +11,7 @@ export default function Add2Items({listName, itemTitle, itemCreatedCallback}) {
         var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
             var r = (d + Math.random() * 16) % 16 | 0;
             d = Math.floor(d / 16);
-            return (c == 'x' ? r : (r & 0x7 | 0x8)).toString(16);
+            return (c === 'x' ? r : (r & 0x7 | 0x8)).toString(16);
         });
         return uuid;
     };
@@ -37,33 +37,50 @@ export default function Add2Items({listName, itemTitle, itemCreatedCallback}) {
                 let batchContents = []
                 const changeSetId = generateUUID()
 
-
                 const batchBody = () => {
                     const endpoint = `http://localhost:8081/_api/web/lists/getbytitle('${listName}')/items`
                     let tempArray = []
-                    itemsAsJson.map(item => {
+                    //batch boundary header
+                    tempArray.push(`--batch_${batchGuid}`)
+                    tempArray.push(`Content-type: multipart/mixed; boundary="changeset_${changeSetId}"`)
+                    //tempArray.push(`Host: `)
+                    //tempArray.push(`Content-Length: `)
+                    tempArray.push(``)
+
+                    //batch body
+                    itemsAsJson.map((item, index) => {
+                        //changeset boundary header
                         tempArray.push(`--changeset_${changeSetId}`)
                         tempArray.push(`Content-Type: application/http`)
                         tempArray.push(`Content-Transfer-Encoding: binary`)
+                        //tempArray.push(`Content-ID: ${index-1}`)
+                        //tempArray.push(`processData: false`)
                         tempArray.push(``)
+                        //changeset body
                         tempArray.push(`POST ${endpoint} HTTP/1.1`)
-                        tempArray.push(`Content-Type: application/json;odata:verbose`)
+                        tempArray.push(`Content-Type: application/json;odata=verbose`)
+                        tempArray.push(`Accept: application/json;odata=verbose`)
                         tempArray.push(``)
-                        tempArray.push(JSON.stringify(itemsAsJson))
+                        tempArray.push(JSON.stringify(item))
                         tempArray.push(``)
                     })
-                    tempArray.push(`--changeset_${changeSetId}`)
+                    //changeset footer (only one, no matter how many headers)
+                    tempArray.push(`--changeset_${changeSetId}--`)
+                    //batch footer
+                    tempArray.push(`--batch_${batchGuid}--`)
 
+                    console.log(`tempArray`,tempArray)
                     return tempArray.join(`/r/n`)
                 }
-                console.log('Add2Items batchBody', batchBody())
 
                 axios.post(`http://localhost:8081/_api/$batch`,
                     batchBody(),
                     {
                         headers: {
                             'X-RequestDigest': document.getElementById("__REQUESTDIGEST").value,
+                            //'Accept': 'application/json;odata=verbose',
                             'Content-Type': 'multipart/mixed;boundary="batch_' + batchGuid + '"'
+
                         }
                     }
                 ).then(response => {

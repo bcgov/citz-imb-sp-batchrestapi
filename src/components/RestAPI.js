@@ -4,6 +4,7 @@ import GetItems from "./GetItems"
 import ShowAllItemDetails from "./ShowAllItemDetails"
 import AddItem from "./AddItem"
 import Add2Items from "./Add2Items"
+import Add3Items from "./Add3Items"
 
 export default function RestAPI() {
 console.log('RestAPI')
@@ -24,6 +25,7 @@ console.log('RestAPI')
 			<GetItems listName={list} refresh={itemNumber}/>
 			<AddItem listName={list} itemTitle={itemTitle} itemCreatedCallback={handleAddItem} />
 			<Add2Items listName={list} itemTitle={itemTitle} itemCreatedCallback={handleAddItem} />
+			<Add3Items listName={list} itemTitle={itemTitle} itemCreatedCallback={handleAddItem} />
 			<ShowAllItemDetails listName={list} />
 		</div>
 	)
