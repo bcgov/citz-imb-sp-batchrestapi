@@ -1,5 +1,6 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import axios from 'axios'
+import { PageContext } from './PageContext'
 
 export default function Add3Items({
 	listName,
@@ -7,13 +8,14 @@ export default function Add3Items({
 	itemCreatedCallback
 }) {
 	console.log('Add3Items', listName, itemTitle, itemCreatedCallback)
+	const pageContext = useContext(PageContext)
 
 	const items = [`${itemTitle}_x`, `${itemTitle}_y`, `${itemTitle}_z`]
 
 	const recursiveAxios = title => {
 		axios.post(`http://localhost:8081/_api/web/lists/getbytitle('${listName}')/items`,
 			{
-				__metadata: { type: response.data.value },
+				__metadata: { type: "response.data.value" },
 				Title: title
 			},
 			{
@@ -80,7 +82,7 @@ export default function Add3Items({
 
 	return (
 		<button id='add3items' type='button' onClick={clickHandler}>
-			Add 3 items - NO batch
+			Add 3 items - NO batch {pageContext}
 		</button>
 	)
 }
