@@ -1,6 +1,7 @@
 import React, { useContext } from 'react'
 import axios from 'axios'
 import { PageContext } from './PageContext'
+import {GetFormDigestValue} from './utilities/SPContextInfo'
 
 export default function Add3Items({
 	listName,
@@ -20,7 +21,7 @@ export default function Add3Items({
 			},
 			{
 				headers: {
-					'X-RequestDigest': document.getElementById("__REQUESTDIGEST").value,
+					'X-RequestDigest': GetFormDigestValue("http://localhost:8081"),
 					'Accept': 'application/json;odata=verbose',
 					'Content-Type': 'application/json;odata=verbose'
 				}
