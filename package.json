@@ -34,7 +34,7 @@
     ]
   },
   "devDependencies": {
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "concurrently": "^5.1.0",
     "gulp": "^4.0.2",
     "gulp-concat": "^2.6.1",
